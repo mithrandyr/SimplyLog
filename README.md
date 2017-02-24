@@ -14,6 +14,11 @@ Write-PSLog with a new 'Path' parameter.
 Also, when using LogType ERROR or WARN, the console coloring will match the same 
 coloring as if you used Write-Error or Write-Warning.
 
+## Installation
+Module is up on http://www.powershellgallery.com
+
+    Install-Module SimplyLog
+
 ## Parameter Options
 
 |Parameter Name|Data Type|Description|
