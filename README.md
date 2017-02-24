@@ -15,7 +15,7 @@ Also, when using LogType ERROR or WARN, the console coloring will match the same
 coloring as if you used Write-Error or Write-Warning.
 
 ## Installation
-Module is up on http://www.powershellgallery.com
+Module is up on https://www.powershellgallery.com/packages/SimplyLog
 
     Install-Module SimplyLog
 
