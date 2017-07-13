@@ -38,6 +38,15 @@ Module is up on https://www.powershellgallery.com/packages/SimplyLog
 
 **Examples**
 
+    Write-PSLog -Message "Message without a section"
+    Write-PSLog -LogSection somesection -Message "Message with a section"
+    Write-PSLog -LogSection somesection -LogType Error -Message "Error Message with a section"
+    Write-PSLog -LogSection somesection -LogType Warn -Message "Warn Message with a section"
+    Write-PSLog -LogSection somesection -Message "Message with a section by no timestamp" -NoTimestamp
+    Write-PSLog -Message "Message, no section, no timestamp" -NoTimestamp
+
+Results in
+
     INFO: [2017-02-24 14-45-40] Message without a section
     INFO: [2017-02-24 14-46-11] [somesection] Message with a section
     ERROR: [2017-02-24 14-46-11] [somesection] Error Message with a section
