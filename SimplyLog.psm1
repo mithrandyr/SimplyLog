@@ -1,4 +1,16 @@
-﻿Set-StrictMode -Version Latest
+﻿<#
+
+public static System.ConsoleColor FromColor(System.Drawing.Color c) {
+    int index = (c.R > 128 | c.G > 128 | c.B > 128) ? 8 : 0; // Bright bit
+    index |= (c.R > 64) ? 4 : 0; // Red bit
+    index |= (c.G > 64) ? 2 : 0; // Green bit
+    index |= (c.B > 64) ? 1 : 0; // Blue bit
+    return (System.ConsoleColor)index;
+}
+
+#>
+
+Set-StrictMode -Version Latest
 <#
 .synopsis
     Writes log information to the console and appends to a file.
@@ -71,7 +83,7 @@ Function Write-PSLog
             If($NoTimestamp -and -not $LogSection) { $logMessage = "{0}: {1}" -f $LogType.ToUpper(), $m }
             ElseIf($NoTimestamp -and $LogSection) { $logMessage = "{0}: [{1}] {2}" -f $LogType.ToUpper(), $LogSection, $m }
             ElseIf(-not $LogSection) { $logMessage = "{0}: [{1:yyyy-MM-dd HH-mm-ss}] {2}" -f $LogType.ToUpper(), (Get-Date), $m }
-            Else { $logMessage = "{0}: [{1:yyyy-MM-dd HH-mm-ss}] [{2}] {3}" -f $LogType.ToUpper(), (Get-Date), $LogSection, $m }
+            Else { $logMessage = "{0}: [{1:yyyy-MM-dd HH:mm:ss}] [{2}] {3}" -f $LogType.ToUpper(), (Get-Date), $LogSection, $m }
 
             Add-Content -Path $Script:PSLogPath -Value $logMessage
             
