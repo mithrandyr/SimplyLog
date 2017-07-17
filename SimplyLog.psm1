@@ -1,5 +1,5 @@
 ﻿<#
-
+https://stackoverflow.com/questions/1988833/converting-color-to-consolecolor
 public static System.ConsoleColor FromColor(System.Drawing.Color c) {
     int index = (c.R > 128 | c.G > 128 | c.B > 128) ? 8 : 0; // Bright bit
     index |= (c.R > 64) ? 4 : 0; // Red bit
@@ -8,7 +8,33 @@ public static System.ConsoleColor FromColor(System.Drawing.Color c) {
     return (System.ConsoleColor)index;
 }
 
+
+
+Public Shared Function FromColor(c As System.Drawing.Color) As System.ConsoleColor
+	Dim index As Integer = If((c.R > 128 Or c.G > 128 Or c.B > 128), 8, 0)
+	' Bright bit
+	index = index Or If((c.R > 64), 4, 0)
+	' Red bit
+	index = index Or If((c.G > 64), 2, 0)
+	' Green bit
+	index = index Or If((c.B > 64), 1, 0)
+	' Blue bit
+	Return DirectCast(index, System.ConsoleColor)
+End Function
+
+
 #>
+Function ConvertColor($Color) {
+    [int]$Index = 0
+    If($Color.R -gt 128 -or $Color.G -gt 128 -or $Color.B -gt 128) { $index = 8 }
+
+    If($Color.R -gt 64) { $index = $index -bor 4 }
+    If($Color.G -gt 64) { $index = $index -bor 2 }
+    If($Color.B -gt 64) { $index = $index -bor 1 }
+
+    Return [System.ConsoleColor]$index    
+}
+
 
 Set-StrictMode -Version Latest
 <#
@@ -73,6 +99,22 @@ Function Write-PSLog
         ElseIf(-not (Test-Path $Script:PSLogPath -PathType Leaf)) {
             Throw "The Path is not a valid file.  Rerun Write-PSLog and include the 'Path' parameter."
         }
+
+        
+        [ConsoleColor]$WarnFront, [ConsoleColor]$WarnBack, [ConsoleColor]$ErrFront, [ConsoleColor]$ErrBack = 0, 0, 0, 0
+        
+        If($host.PrivateData.WarningBackgroundColor -is [ConsoleColor]) {
+            [ConsoleColor]$WarnFront = $host.PrivateData.WarningForegroundColor
+            [ConsoleColor]$WarnBack = $host.PrivateData.WarningBackgroundColor
+            [ConsoleColor]$ErrFront = $host.PrivateData.ErrorForegroundColor
+            [ConsoleColor]$ErrBack = $host.PrivateData.ErrorBackgroundColor
+        }
+        Else {
+            [ConsoleColor]$WarnFront = ConvertColor -Color $host.PrivateData.WarningForegroundColor
+            [ConsoleColor]$WarnBack = ConvertColor -Color $host.PrivateData.WarningBackgroundColor
+            [ConsoleColor]$ErrFront = ConvertColor -Color $host.PrivateData.ErrorForegroundColor
+            [ConsoleColor]$ErrBack = ConvertColor -Color $host.PrivateData.ErrorBackgroundColor
+        }        
     }
 
     Process
@@ -92,8 +134,8 @@ Function Write-PSLog
                 Switch ($LogType)
                 {
                     "Info"{ Write-Host $logMessage }
-                    "Warn" { Write-Host $logMessage -ForegroundColor $host.PrivateData.WarningForegroundColor -BackgroundColor $host.PrivateData.WarningBackgroundColor }
-                    "Error" { Write-Host $logMessage -ForegroundColor $host.PrivateData.ErrorForegroundColor -BackgroundColor $host.PrivateData.ErrorBackgroundColor }
+                    "Warn" { Write-Host $logMessage -ForegroundColor $WarnFront -BackgroundColor $WarnBack }
+                    "Error" { Write-Host $logMessage -ForegroundColor $ErrFront -BackgroundColor $ErrBack }
                 }
             }
         }
