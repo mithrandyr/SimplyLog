@@ -47,10 +47,10 @@ Module is up on https://www.powershellgallery.com/packages/SimplyLog
 
 Results in
 
-    INFO: [2017-02-24 14-45-40] Message without a section
-    INFO: [2017-02-24 14-46-11] [somesection] Message with a section
-    ERROR: [2017-02-24 14-46-11] [somesection] Error Message with a section
-    WARN: [2017-02-24 14-46-11] [somesection] Warn Message with a section
+    INFO: [2017-02-24 14:45:40] Message without a section
+    INFO: [2017-02-24 14:46:11] [somesection] Message with a section
+    ERROR: [2017-02-24 14:46:11] [somesection] Error Message with a section
+    WARN: [2017-02-24 14:46:11] [somesection] Warn Message with a section
     INFO: [somesection] Message with a section but no timestamp
     INFO: Message, no section, no timestamp
     

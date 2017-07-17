@@ -124,7 +124,7 @@ Function Write-PSLog
             [string]$logMessage = $null
             If($NoTimestamp -and -not $LogSection) { $logMessage = "{0}: {1}" -f $LogType.ToUpper(), $m }
             ElseIf($NoTimestamp -and $LogSection) { $logMessage = "{0}: [{1}] {2}" -f $LogType.ToUpper(), $LogSection, $m }
-            ElseIf(-not $LogSection) { $logMessage = "{0}: [{1:yyyy-MM-dd HH-mm-ss}] {2}" -f $LogType.ToUpper(), (Get-Date), $m }
+            ElseIf(-not $LogSection) { $logMessage = "{0}: [{1:yyyy-MM-dd HH:mm:ss}] {2}" -f $LogType.ToUpper(), (Get-Date), $m }
             Else { $logMessage = "{0}: [{1:yyyy-MM-dd HH:mm:ss}] [{2}] {3}" -f $LogType.ToUpper(), (Get-Date), $LogSection, $m }
 
             Add-Content -Path $Script:PSLogPath -Value $logMessage
