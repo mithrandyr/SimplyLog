@@ -102,7 +102,7 @@ Function Write-PSLog
 
         
         [ConsoleColor]$WarnFront, [ConsoleColor]$WarnBack, [ConsoleColor]$ErrFront, [ConsoleColor]$ErrBack = 0, 0, 0, 0
-        If($host.PrivateData.WarningBackgroundColor) {
+        If($host.PrivateData) {
             if($host.PrivateData.WarningBackgroundColor -is [ConsoleColor]) {
                 [ConsoleColor]$WarnFront = $host.PrivateData.WarningForegroundColor
                 [ConsoleColor]$WarnBack = $host.PrivateData.WarningBackgroundColor
