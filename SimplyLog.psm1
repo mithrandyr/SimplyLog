@@ -102,19 +102,24 @@ Function Write-PSLog
 
         
         [ConsoleColor]$WarnFront, [ConsoleColor]$WarnBack, [ConsoleColor]$ErrFront, [ConsoleColor]$ErrBack = 0, 0, 0, 0
-        
-        If($host.PrivateData.WarningBackgroundColor -is [ConsoleColor]) {
-            [ConsoleColor]$WarnFront = $host.PrivateData.WarningForegroundColor
-            [ConsoleColor]$WarnBack = $host.PrivateData.WarningBackgroundColor
-            [ConsoleColor]$ErrFront = $host.PrivateData.ErrorForegroundColor
-            [ConsoleColor]$ErrBack = $host.PrivateData.ErrorBackgroundColor
+        If($host.PrivateData.WarningBackgroundColor) {
+            if($host.PrivateData.WarningBackgroundColor -is [ConsoleColor]) {
+                [ConsoleColor]$WarnFront = $host.PrivateData.WarningForegroundColor
+                [ConsoleColor]$WarnBack = $host.PrivateData.WarningBackgroundColor
+                [ConsoleColor]$ErrFront = $host.PrivateData.ErrorForegroundColor
+                [ConsoleColor]$ErrBack = $host.PrivateData.ErrorBackgroundColor
+            }
+            Else {
+                [ConsoleColor]$WarnFront = ConvertColor -Color $host.PrivateData.WarningForegroundColor
+                [ConsoleColor]$WarnBack = ConvertColor -Color $host.PrivateData.WarningBackgroundColor
+                [ConsoleColor]$ErrFront = ConvertColor -Color $host.PrivateData.ErrorForegroundColor
+                [ConsoleColor]$ErrBack = ConvertColor -Color $host.PrivateData.ErrorBackgroundColor
+            }
         }
         Else {
-            [ConsoleColor]$WarnFront = ConvertColor -Color $host.PrivateData.WarningForegroundColor
-            [ConsoleColor]$WarnBack = ConvertColor -Color $host.PrivateData.WarningBackgroundColor
-            [ConsoleColor]$ErrFront = ConvertColor -Color $host.PrivateData.ErrorForegroundColor
-            [ConsoleColor]$ErrBack = ConvertColor -Color $host.PrivateData.ErrorBackgroundColor
-        }        
+            $WarnFront, $WarnBack = "Yellow", "Black"
+            $ErrFront, $ErrBack = "Red", "Black"
+        }
     }
 
     Process
